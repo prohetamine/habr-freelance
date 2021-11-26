@@ -40,12 +40,12 @@ const tasksParser = response => {
 const getResponses = () =>
   fetch('https://freelance.habr.com/my/responses')
     .then(response => response.text())
-    .then(response => response.match(/\/tasks\/\d+/gi).map(task => task.match(/\d+/)[0]))
+    .then(response => (r => r ? r.map(task => task.match(/\d+/)[0]) : [])(response.match(/\/tasks\/\d+/gi)))
 
 const getInvites = () =>
   fetch('https://freelance.habr.com/my/responses/invites')
     .then(response => response.text())
-    .then(response => response.match(/\/tasks\/\d+/gi).map(task => task.match(/\d+/)[0]))
+    .then(response => (r => r ? r.map(task => task.match(/\d+/)[0]) : [])(response.match(/\/tasks\/\d+/gi)))
 
 const getOwnerDialog = taskId =>
   fetch(`https://freelance.habr.com/tasks/${taskId}`)
