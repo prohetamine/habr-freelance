@@ -1,0 +1,26 @@
+{
+  "name": "Хабр Фриланс",
+  "description": "Расширение для фрилансера, который смог.",
+  "version": "1.4.88",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "index.html"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "notifications",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://freelance.habr.com/*",
+    "https://habrastorage.org/*"
+  ]
+}
