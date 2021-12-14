@@ -115,92 +115,104 @@ const taskChecker = () =>
     safe_deal = '',
     only_with_price = '',
     only_mentioned = ''
-  }) =>
-    fetch(`https://freelance.habr.com/tasks?_=${
-      new Date() - 0
-    }${
-      q ? `&q=${q}` : ''
-    }${
-      categories ? `&categories=${categories}` : ''
-    }${
-      fields ? `&fields=${fields}` : ''
-    }${
-      only_urgent ? `&only_urgent=${only_urgent}` : ''
-    }${
-      safe_deal ? `&safe_deal=${safe_deal}` : ''
-    }${
-      only_with_price ? `&only_with_price=${only_with_price}` : ''
-    }${
-      only_mentioned ? `&only_mentioned=${only_mentioned}` : ''
-    }`, {
-      'headers': {
-        'accept': 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01',
-        'x-requested-with': 'XMLHttpRequest'
-      }
-    })
-    .then(response => response.text())
-    .then(response => {
-      const tasks = tasksParser(response)
+  }) => {
+    try {
+      fetch(`https://freelance.habr.com/tasks?_=${
+        new Date() - 0
+      }${
+        q ? `&q=${q}` : ''
+      }${
+        categories ? `&categories=${categories}` : ''
+      }${
+        fields ? `&fields=${fields}` : ''
+      }${
+        only_urgent ? `&only_urgent=${only_urgent}` : ''
+      }${
+        safe_deal ? `&safe_deal=${safe_deal}` : ''
+      }${
+        only_with_price ? `&only_with_price=${only_with_price}` : ''
+      }${
+        only_mentioned ? `&only_mentioned=${only_mentioned}` : ''
+      }`, {
+        'headers': {
+          'accept': 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01',
+          'x-requested-with': 'XMLHttpRequest'
+        }
+      })
+      .then(response => response.text())
+      .then(response => {
+        const tasks = tasksParser(response)
 
-      tasks.forEach(({ title, count, id }, i) => {
-        const notificationId = 'task_'+id
+        tasks.forEach(({ title, count, id }, i) => {
+          const notificationId = 'task_'+id
+
+          pushNotification(notificationId, {
+            title: 'Заказы',
+            message: `${title} — ${count}`,
+            iconUrl: '/logo.jpg',
+            type: 'basic'
+          })
+        })
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  })
+
+const dialogChecker = async () => {
+  try {
+    const responses = await getResponses()
+
+    const responsesDialogUrls = (
+      await Promise.all(responses.map(getOwnerDialog))
+    )
+    .filter(f => f)
+
+    const ownerMessages = (
+      await Promise.all(responsesDialogUrls.map(getOwnerMessages))
+    )
+
+    ownerMessages.forEach(({ avatar, messages, username }, i) => {
+      const [taskId, dialogId] = responsesDialogUrls[i].match(/\d+/gi)
+
+      messages.forEach(message => {
+        const notificationId = 'dialog_'+taskId+'-'+dialogId+'-'+message.id
 
         pushNotification(notificationId, {
-          title: 'Заказы',
-          message: `${title} — ${count}`,
-          iconUrl: '/logo.jpg',
+          title: `Сообщение от ${username}`,
+          message: message.body,
+          iconUrl: avatar.match(/https/) ? avatar : `https://freelance.habr.com/${avatar}`, // ну вот так хабр
           type: 'basic'
         })
       })
     })
-  )
-
-const dialogChecker = async () => {
-  const responses = await getResponses()
-
-  const responsesDialogUrls = (
-    await Promise.all(responses.map(getOwnerDialog))
-  )
-  .filter(f => f)
-
-  const ownerMessages = (
-    await Promise.all(responsesDialogUrls.map(getOwnerMessages))
-  )
-
-  ownerMessages.forEach(({ avatar, messages, username }, i) => {
-    const [taskId, dialogId] = responsesDialogUrls[i].match(/\d+/gi)
-
-    messages.forEach(message => {
-      const notificationId = 'dialog_'+taskId+'-'+dialogId+'-'+message.id
-
-      pushNotification(notificationId, {
-        title: `Сообщение от ${username}`,
-        message: message.body,
-        iconUrl: avatar.match(/https/) ? avatar : `https://freelance.habr.com/${avatar}`, // ну вот так хабр
-        type: 'basic'
-      })
-    })
-  })
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 const inviteChecker = async () => {
-  const invites = await getInvites()
+  try {
+    const invites = await getInvites()
 
-  const taskInvites = (
-    await Promise.all(invites.map(getTask))
-  )
-  .filter(f => f)
+    const taskInvites = (
+      await Promise.all(invites.map(getTask))
+    )
+    .filter(f => f)
 
-  taskInvites.forEach(({ title, count, id }, i) => {
-    const notificationId = 'invite_'+id
+    taskInvites.forEach(({ title, count, id }, i) => {
+      const notificationId = 'invite_'+id
 
-    pushNotification(notificationId, {
-      title: 'Вас пригласили',
-      message: `${title} — ${count}`,
-      iconUrl: '/logo.jpg',
-      type: 'basic'
+      pushNotification(notificationId, {
+        title: 'Вас пригласили',
+        message: `${title} — ${count}`,
+        iconUrl: '/logo.jpg',
+        type: 'basic'
+      })
     })
-  })
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 chrome.notifications.onClicked.addListener(data => {
