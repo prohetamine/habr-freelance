@@ -3,38 +3,42 @@ let SKIP_MESSAGES = true
 const delay = ms => new Promise(res => setTimeout(res, ms))
 
 const tasksParser = response => {
-  const taskHTML = response
-    .replace(/\n/gi, '')
-    .match(/var content = '';var pagination = '';content \+= ".+;pagination \+= "/gi)[0]
-    .replace(/(var content = '';var pagination = '';content \+= "|;pagination \+= ")/gi, '')
-    .replace(/\\/gi, '')
+  try {
+    const taskHTML = response
+      .replace(/\n/gi, '')
+      .match(/var content = '';var pagination = '';content \+= ".+;pagination \+= "/gi)[0]
+      .replace(/(var content = '';var pagination = '';content \+= "|;pagination \+= ")/gi, '')
+      .replace(/\\/gi, '')
 
-  const tasksTitle = taskHTML
-                      .match(/class="task__title" title="[^"]+/gi)
-                      .map(
-                        html =>
-                          html.replace(/class="task__title" title="/, '').trim()
-                      )
+    const tasksTitle = taskHTML
+                        .match(/class="task__title" title="[^"]+/gi)
+                        .map(
+                          html =>
+                            html.replace(/class="task__title" title="/, '').trim()
+                        )
 
-  const tasksCount = taskHTML
-                      .match(/(span class='count'|span class='negotiated_price')>[^<]+/gi)
-                      .map(
-                        html =>
-                          html.replace(/(span class='count'|span class='negotiated_price')>/, '').trim()
-                      )
+    const tasksCount = taskHTML
+                        .match(/(span class='count'|span class='negotiated_price')>[^<]+/gi)
+                        .map(
+                          html =>
+                            html.replace(/(span class='count'|span class='negotiated_price')>/, '').trim()
+                        )
 
-  const tasksId = taskHTML
-                      .match(/<a href="\/tasks\/\d+/gi)
-                      .map(
-                        html =>
-                          html.replace(/<a href="\/tasks\//, '').trim()
-                      )
+    const tasksId = taskHTML
+                        .match(/<a href="\/tasks\/\d+/gi)
+                        .map(
+                          html =>
+                            html.replace(/<a href="\/tasks\//, '').trim()
+                        )
 
-  return Array(tasksTitle.length).fill(false).map((_, i) => ({
-    title: tasksTitle[i],
-    count: tasksCount[i],
-    id: tasksId[i]
-  }))
+    return Array(tasksTitle.length).fill(false).map((_, i) => ({
+      title: tasksTitle[i],
+      count: tasksCount[i],
+      id: tasksId[i]
+    }))
+  } catch (err) {
+    return []
+  }
 }
 
 const getResponses = () =>
@@ -135,10 +139,23 @@ const taskChecker = () =>
       }${
         only_mentioned ? `&only_mentioned=${only_mentioned}` : ''
       }`, {
-        'headers': {
-          'accept': 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01',
-          'x-requested-with': 'XMLHttpRequest'
-        }
+        "headers": {
+          "accept": "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01",
+          "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+          "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"macOS\"",
+          "sec-fetch-dest": "empty",
+          "sec-fetch-mode": "cors",
+          "sec-fetch-site": "same-origin",
+          "x-requested-with": "XMLHttpRequest"
+        },
+        "referrer": "https://freelance.habr.com/tasks?",
+        "referrerPolicy": "strict-origin-when-cross-origin",
+        "body": null,
+        "method": "GET",
+        "mode": "cors",
+        "credentials": "include"
       })
       .then(response => response.text())
       .then(response => {
@@ -232,7 +249,10 @@ chrome.notifications.onClicked.addListener(data => {
 chrome.alarms.create({ periodInMinutes: 0.15 })
 
 ;(async () => {
-  await chrome.storage.local.set({ SKIP_MESSAGES: true })
+  const storage = await chrome.storage.local.get(['SKIP_MESSAGES'])
+  if (storage.SKIP_MESSAGES === undefined) {
+    await chrome.storage.local.set({ SKIP_MESSAGES: true })
+  }
 
   await taskChecker()
   await delay(5000)
