@@ -100,8 +100,8 @@ const getTask = async taskId =>
     })
 
 const pushNotification = (id, option) => {
-  chrome.storage.local.get(state => {
-    const isSkipMessage = await chrome.storage.local.get(['SKIP_MESSAGES']) 
+  chrome.storage.local.get(async state => {
+    const isSkipMessage = await chrome.storage.local.get(['SKIP_MESSAGES'])
     isSkipMessage || state[id] || chrome.notifications.create(id, option)
     chrome.storage.local.set({ [id]: true }, () => { /* save */ })
   })
