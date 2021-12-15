@@ -1,7 +1,7 @@
 {
   "name": "Хабр Фриланс",
   "description": "Будь всегда вкурсе событий на фрилансе!",
-  "version": "1.4.90",
+  "version": "1.4.91",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"

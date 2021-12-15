@@ -101,7 +101,8 @@ const getTask = async taskId =>
 
 const pushNotification = (id, option) => {
   chrome.storage.local.get(state => {
-    SKIP_MESSAGES || state[id] || chrome.notifications.create(id, option)
+    const isSkipMessage = await chrome.storage.local.get(['SKIP_MESSAGES']) 
+    isSkipMessage || state[id] || chrome.notifications.create(id, option)
     chrome.storage.local.set({ [id]: true }, () => { /* save */ })
   })
 }
@@ -231,6 +232,8 @@ chrome.notifications.onClicked.addListener(data => {
 chrome.alarms.create({ periodInMinutes: 0.15 })
 
 ;(async () => {
+  await chrome.storage.local.set({ SKIP_MESSAGES: true })
+
   await taskChecker()
   await delay(5000)
   await dialogChecker()
@@ -238,7 +241,7 @@ chrome.alarms.create({ periodInMinutes: 0.15 })
   await inviteChecker()
   await delay(5000)
 
-  SKIP_MESSAGES = false /* Разрешаем отправлять уведомления после того как пропустили все старые */
+  await chrome.storage.local.set({ SKIP_MESSAGES: false }) /* Разрешаем отправлять уведомления после того как пропустили все старые */
 
   chrome.alarms.onAlarm.addListener(() => {
     chrome.storage.local.get(async ({
