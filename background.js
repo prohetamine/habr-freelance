@@ -261,7 +261,7 @@ chrome.alarms.create({ periodInMinutes: 0.15 })
   await inviteChecker()
   await delay(5000)
 
-  await chrome.storage.local.set({ SKIP_MESSAGES: false }) /* Разрешаем отправлять уведомления после того как пропустили все старые */
+  await chrome.storage.local.set({ SKIP_MESSAGES: false }) /* Разрешаем отправлять уведомления после того как пропустили все старые задачи */
 
   chrome.alarms.onAlarm.addListener(() => {
     chrome.storage.local.get(async ({
