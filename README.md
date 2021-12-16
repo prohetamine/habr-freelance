@@ -12,9 +12,9 @@
 
 ![screenshots](https://github.com/prohetamine/habr-freelance/blob/main/media/screenshots.png)
 
-### Читать
+### Установить
 
-Установить — [habr](https://chrome.google.com/webstore/detail/%D1%85%D0%B0%D0%B1%D1%80-%D1%84%D1%80%D0%B8%D0%BB%D0%B0%D0%BD%D1%81/efdndlpohbhedbbilokaalofchbeialo)
+[Chrome Web Store](https://chrome.google.com/webstore/detail/%D1%85%D0%B0%D0%B1%D1%80-%D1%84%D1%80%D0%B8%D0%BB%D0%B0%D0%BD%D1%81/efdndlpohbhedbbilokaalofchbeialo)
 
 ### Читать
 
