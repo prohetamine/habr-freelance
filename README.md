@@ -2,7 +2,7 @@
 
 ##### README доступен на языках: [Русский](https://github.com/prohetamine/habr-freelance/blob/main/README.md) | [Английский](hhttps://github.com/prohetamine/habr-freelance/blob/main/README/english.md)
 
-# readme-styled
+# Хабр Фриланс
 
 > Фрилансер - Быстрей, Сильней, Выше
 
