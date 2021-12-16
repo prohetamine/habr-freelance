@@ -1,4 +1,4 @@
-![logo](https://github.com/prohetamine/readme-styled/blob/main/media/logo.png)
+![logo](https://github.com/prohetamine/habr-freelance/blob/main/media/logo.png)
 
 ##### README доступен на языках: [Русский](https://github.com/prohetamine/habr-freelance/blob/main/russian.md) | [Английский](hhttps://github.com/prohetamine/habr-freelance/blob/main/README/english.md)
 
@@ -8,7 +8,7 @@
 
 ### Почему ?
 
-![logo](https://github.com/prohetamine/readme-styled/blob/main/media/screenshots.png)
+![logo](https://github.com/prohetamine/habr-freelance/blob/main/media/screenshots.png)
 
 Я был как в роли заказчика так и фрилансера и понимаю о чем говорю. Ужасно тяжело общаться с фрилансерами и заказчиками, которые отвечают по часу. Да и очень не приятно пропускать интересные и клевые задачи, но самое главное кто владеет знанием раньше тот в более выигрышном положении это расширение призванно держать руку на пульсе пока вы просто занимаетесь своими делами в интернете. Как только заказчик вам ответит, вас пригласят обсудить задачу или кто-то добавит новый заказ в подходящую категорию вы мгновенно получите уведомление.
 
