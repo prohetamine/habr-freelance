@@ -1,6 +1,6 @@
 ![logo](https://github.com/prohetamine/habr-freelance/blob/main/media/logo.png)
 
-##### README доступен на языках: [Русский](https://github.com/prohetamine/habr-freelance/blob/main/README.md) | [Английский](hhttps://github.com/prohetamine/habr-freelance/blob/main/README/english.md)
+##### README доступен на языках: [Русский](https://github.com/prohetamine/habr-freelance/blob/main/README.md) | [Английский](https://github.com/prohetamine/habr-freelance/blob/main/README/english.md)
 
 # Хабр Фриланс
 
