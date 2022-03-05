@@ -18,9 +18,9 @@ Habr Freelance — [Chrome Web Store](https://chrome.google.com/webstore/detail/
 
 ### Read
 
-«Создаем полезное расширение для Хабр Фриланса — Часть первая» — [Habr](https://habr.com/ru/post/593421/)
+«Создаем полезное расширение для Хабр Фриланса — Часть первая» — [Habr](https://habr.com/ru/post/592967/)
 
-«Публикуем полезное расширение для Хабр Фриланса — Часть вторая» — [Habr](https://habr.com/ru/post/593421/)
+«Публикуем полезное расширение для Хабр Фриланса — Часть вторая» — [Habr](https://habr.com/ru/post/596417/)
 
 ### Contacts
 
